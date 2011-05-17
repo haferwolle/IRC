@@ -53,6 +53,9 @@ am_IRCClient_OBJECTS = main.$(OBJEXT) $(am__objects_1)
 IRCClient_OBJECTS = $(am_IRCClient_OBJECTS)
 am__DEPENDENCIES_1 =
 IRCClient_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+IRCClient_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(IRCClient_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -126,7 +129,7 @@ LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAINT = 
+MAINT = #
 MAKEINFO = ${SHELL} /home/wolfgang/Dokumente/IRCClient/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 MKINSTALLDIRS = ./mkinstalldirs
@@ -229,6 +232,20 @@ IRCClient_LDADD = \
 	$(IRCCLIENT_LIBS) \
 	$(NULL)
 
+IRCClient_LDFLAGS = \
+	-lsqlite3 \
+	-lgio-2.0 \
+	-lgmodule-2.0 \
+	$(NULL)
+
+IRCClient_VALAFLAGS = \
+	--pkg gio-2.0 \
+	--pkg sqlite3 \
+	--pkg gmodule-2.0 \
+	--pkg libdaemon \
+	--thread \
+	$(NULL)
+
 EXTRA_DIST = \
 	$(NULL)
 
@@ -239,7 +256,7 @@ all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -264,9 +281,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: # $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 install-binPROGRAMS: $(bin_PROGRAMS)
@@ -314,7 +331,7 @@ clean-binPROGRAMS:
 	rm -f $$list
 IRCClient$(EXEEXT): $(IRCClient_OBJECTS) $(IRCClient_DEPENDENCIES) 
 	@rm -f IRCClient$(EXEEXT)
-	$(LINK) $(IRCClient_OBJECTS) $(IRCClient_LDADD) $(LIBS)
+	$(IRCClient_LINK) $(IRCClient_OBJECTS) $(IRCClient_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -350,7 +367,7 @@ $(srcdir)/main.c: $(srcdir)/IRCClient_vala.stamp
 	  $(am__cd) $(srcdir) && $(MAKE) $(AM_MAKEFLAGS) IRCClient_vala.stamp; \
 	fi
 IRCClient_vala.stamp: $(IRCClient_SOURCES)
-	$(VALAC) $(AM_VALAFLAGS) $(VALAFLAGS) -C $(IRCClient_SOURCES)
+	$(VALAC) $(IRCClient_VALAFLAGS) $(VALAFLAGS) -C $(IRCClient_SOURCES)
 	touch $@
 
 mostlyclean-libtool:
